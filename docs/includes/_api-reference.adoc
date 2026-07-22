@@ -1,0 +1,25 @@
+=== Core API Reference
+
+The Vaultcore REST API enables programmatic management of tenant security policies, audit log streams, and cluster health checks.
+
+==== Base URL
+[source,text]
+----
+https://api.vaultcore.internal/v1/tenants/{tenant_id}
+----
+
+==== Endpoints
+
+|===
+| Method | Endpoint | Description
+| `GET` | `/status` | Returns operational health and sync metrics.
+| `POST` | `/policies` | Deploys a new security compliance policy.
+| `DELETE` | `/cache` | Forces an immediate regional node cache eviction.
+|===
+
+==== Example Request
+[source,bash]
+----
+curl -X GET "https://api.vaultcore.internal/v1/tenants/enterprise-prod-01/status" \
+     -H "Authorization: Bearer \$VAULTCORE_API_TOKEN"
+----
