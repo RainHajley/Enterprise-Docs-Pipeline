@@ -47,7 +47,7 @@ vaultcore auth status
 
 [WARNING]
 ====
-Never store raw API secrets or private tokens in plain-text configuration files or public repositories.
+Never commit raw API tokens or service account keys to git or store them in plain-text config files. If a secret leaks, rotate it immediately.
 ====
 
 == API Integration
