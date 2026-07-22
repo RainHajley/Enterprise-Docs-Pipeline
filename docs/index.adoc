@@ -1,48 +1,85 @@
-= Vaultcore Enterprise Documentation Hub
+= Vaultcore Documentation Hub
+:icons: font
 :toc: left
 :toclevels: 3
-:icons: font
 :source-highlighter: highlight.js
 
 == Overview
-Welcome to the official documentation portal for **Vaultcore**. This system provides multi-tenant infrastructure security, automated compliance logging, and scalable API gateways.
+Vaultcore handles multi-tenant infrastructure security, automated compliance logging, and API gateways. This guide gets your environment configured and your API requests running.
 
 ifdef::profile-public[]
-[NOTE.public-notice]
+[NOTE]
 ====
-You are viewing the **Public Documentation Variant**. Certain internal infrastructure guides, advanced administrative tooling, and debug workflows are hidden in this view.
+You are viewing the **Public Documentation Variant**. Internal operational runbooks and debug tooling are hidden in this view.
 ====
 endif::[]
 
 ifdef::profile-internal[]
-[TIP.internal-badge]
+[TIP]
 ====
-**INTERNAL EDITION**: You are viewing the full internal documentation variant. All administrative controls, debugging playbooks, and secure deployment pipelines are unlocked.
+**INTERNAL EDITION**: Full internal view active. Administrative controls and debugging playbooks are unlocked.
 ====
 endif::[]
 
----
-
 == Getting Started
+Before running commands, make sure you have the Vaultcore CLI installed and targeted at your tenant cluster.
 
-To initialize your environment, ensure you have the core CLI tools installed and configured for your specific tenant cluster.
+=== Prerequisites
+* Vaultcore CLI installed locally.
+* Network access to your tenant cluster endpoints.
 
-* System Requirements
-* Network Topology & Firewall Rules
-* Initial Access Credentials
+== Authentication
+To connect to the Vaultcore tenant gateway, authenticate with your enterprise service account keys.
 
-include::includes/_auth-setup.adoc[]
+1. Run the bootstrap command in your terminal:
++
+[source,bash]
+----
+vaultcore auth login --tenant-id="enterprise-prod-01"
+----
+
+2. Verify your session permissions:
++
+[source,bash]
+----
+vaultcore auth status
+----
+
+[WARNING]
+====
+Never store raw API secrets or private tokens in plain-text configuration files or public repositories.
+====
 
 == API Integration
+The Vaultcore REST API lets you manage security policies, audit logs, and cluster health checks programmatically.
 
-Review the core programmatic endpoints for automating tenant management workflows.
+=== Base URL
+----
+https://api.vaultcore.internal/v1/tenants/{tenant_id}
+----
 
-include::includes/_api-reference.adoc[]
+=== Endpoints
+
+[cols="1,2,3", options="header"]
+|===
+| Method | Endpoint | Description
+| `GET` | `/status` | Returns operational health and sync metrics.
+| `POST` | `/policies` | Deploys a new security compliance policy.
+| `DELETE` | `/cache` | Forces an immediate regional node cache eviction.
+|===
+
+=== Example Request
+
+[source,bash]
+----
+curl -X GET "https://api.vaultcore.internal/v1/tenants/enterprise-prod-01/status" \
+     -H "Authorization: Bearer $VAULTCORE_API_TOKEN"
+----
 
 ifdef::profile-internal[]
 == Internal Operations & Troubleshooting
+Review the procedures below for handling failover clusters and edge routing errors.
 
-Because you are viewing the internal build, review the procedures below for handling failover clusters and edge routing errors.
-
-include::_debug-steps.adoc[]
+* Check node synchronization states via the admin control plane.
+* Validate regional edge routing tables if cluster latency spikes.
 endif::[]
