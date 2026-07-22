@@ -27,10 +27,10 @@ jobs:
       - name: Build Documentation (Public & Internal Variants)
         run: |
           mkdir -p build/public build/internal
-
+          
           # Build Public Variant
           asciidoctor -a profile=public -D build/public docs/index.adoc
-
+          
           # Build Internal Variant
           asciidoctor -a profile=internal -D build/internal docs/index.adoc
 
