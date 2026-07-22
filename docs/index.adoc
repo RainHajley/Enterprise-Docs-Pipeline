@@ -1,0 +1,42 @@
+= Vaultcore Enterprise Documentation Hub
+:toc: left
+:toclevels: 3
+:icons: font
+:source-highlighter: highlight.js
+
+== Overview
+Welcome to the official documentation portal for **Vaultcore**. This system provides multi-tenant infrastructure security, automated compliance logging, and scalable API gateways.
+
+ifdef::profile-public[]
+[NOTE.public-notice]
+====
+You are viewing the **Public Documentation Variant**. Certain internal infrastructure guides, advanced administrative tooling, and debug workflows are hidden in this view.
+====
+endif::[]
+
+ifdef::profile-internal[]
+[TIP.internal-badge]
+====
+**INTERNAL EDITION**: You are viewing the full internal documentation variant. All administrative controls, debugging playbooks, and secure deployment pipelines are unlocked.
+====
+endif::[]
+
+---
+
+== Getting Started
+
+To initialize your environment, ensure you have the core CLI tools installed and configured for your specific tenant cluster.
+
+* System Requirements
+* Network Topology & Firewall Rules
+* Initial Access Credentials
+
+include::includes/_auth-setup.adoc[]
+
+ifdef::profile-internal[]
+== Internal Operations & Troubleshooting
+
+Because you are viewing the internal build, review the procedures below for handling failover clusters and edge routing errors.
+
+include::_debug-steps.adoc[]
+endif::[]
