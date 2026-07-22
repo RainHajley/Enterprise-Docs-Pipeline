@@ -33,6 +33,12 @@ To initialize your environment, ensure you have the core CLI tools installed and
 
 include::includes/_auth-setup.adoc[]
 
+== API Integration
+
+Review the core programmatic endpoints for automating tenant management workflows.
+
+include::includes/_api-reference.adoc[]
+
 ifdef::profile-internal[]
 == Internal Operations & Troubleshooting
 
