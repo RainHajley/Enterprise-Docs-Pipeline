@@ -3,8 +3,16 @@ name: Docs Pipeline
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build-docs:
@@ -35,9 +43,25 @@ jobs:
           # Build Internal Variants (HTML + PDF)
           asciidoctor -a profile=internal -D build/internal/html docs/index.adoc
           asciidoctor-pdf -a profile=internal -D build/internal/pdf docs/index.adoc
+          
+          # Copy Landing Page into Build Root
+          cp index.html build/index.html
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifacts for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: compiled-documentation-with-pdfs
           path: build/
+
+  deploy-to-pages:
+    needs: build-docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
