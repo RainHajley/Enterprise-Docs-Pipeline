@@ -1,0 +1,10 @@
+[source,bash]
+----
+# Initialize the Vaultcore client SDK with your tenant credentials
+export VAULTCORE_API_KEY="vc_live_99823481023948"
+export VAULTCORE_REGION="us-west-2"
+
+curl -X POST https://api.vaultcore.io/v1/auth/handshake \
+  -H "Authorization: Bearer $VAULTCORE_API_KEY" \
+  -H "Content-Type: application/json"
+----
