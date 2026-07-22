@@ -24,18 +24,20 @@ jobs:
         run: |
           gem install asciidoctor asciidoctor-pdf
 
-      - name: Build Documentation (Public & Internal Variants)
+      - name: Build Documentation (HTML & PDF Variants)
         run: |
-          mkdir -p build/public build/internal
+          mkdir -p build/public/html build/public/pdf build/internal/html build/internal/pdf
           
-          # Build Public Variant
-          asciidoctor -a profile=public -D build/public docs/index.adoc
+          # Build Public Variants (HTML + PDF)
+          asciidoctor -a profile=public -D build/public/html docs/index.adoc
+          asciidoctor-pdf -a profile=public -D build/public/pdf docs/index.adoc
           
-          # Build Internal Variant
-          asciidoctor -a profile=internal -D build/internal docs/index.adoc
+          # Build Internal Variants (HTML + PDF)
+          asciidoctor -a profile=internal -D build/internal/html docs/index.adoc
+          asciidoctor-pdf -a profile=internal -D build/internal/pdf docs/index.adoc
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-documentation
+          name: compiled-documentation-with-pdfs
           path: build/
